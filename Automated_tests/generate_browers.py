@@ -22,7 +22,7 @@ def generate_chrome_driver():
     return webdriver.Chrome(options=options)
 
 def generate_chrome_driver_headless():
-    options = Options()
+    options = ChromeOptions()
     options.add_argument('--headless')  # For CI/CD
     options.add_argument('--no-sandbox')  # For CI/CD
     options.add_argument('--disable-dev-shm-usage')  # For CI/CD
