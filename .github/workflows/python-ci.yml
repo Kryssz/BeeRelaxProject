@@ -1,0 +1,68 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: CI – Docker-Compose + Tests
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test-with-cluster:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install docker-compose
+      run: |
+        DOCKER_COMPOSE_VERSION="v2.20.2"         
+        sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" \
+             -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
+    - name: Build Docker images
+      run: |
+        docker-compose -f Sprint-1/compose.yaml build
+    - name: Start Docker Compose cluster
+      run: |
+        docker-compose -f Sprint-1/compose.yaml up -d
+
+    - name: Wait for service to be ready
+      run: |
+        echo " Waiting for Service A (e.g. database) on port 4200…"
+        for i in {1..30}; do
+          if nc -z localhost 4200; then
+            echo " Service A is listening on 4200"
+            break
+          fi
+          echo "…still waiting ($i)"
+          sleep 2
+        done
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    #- name: Test with pytest
+     # run: |
+      #  pytest
+    - name: Tear down Docker Compose cluster
+      if: always()
+      run: |
+        docker-compose -f Sprint-1/compose.yaml down
