@@ -32,7 +32,7 @@ def generate_chrome_driver_headless():
     options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
-    return driver
+    return driver, profile_dir
 
 def generate_firefox_driver():
     options = FirefoxOptions()

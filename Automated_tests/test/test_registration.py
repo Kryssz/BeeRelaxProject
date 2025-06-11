@@ -1,3 +1,5 @@
+import shutil
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -7,6 +9,9 @@ URL = 'http://localhost:4200/register'
 
 
 class TestTC(object):
+    def __init__(self):
+        self.profile_dir = None
+
     def setup_method(self):
         self.driver = generate_chrome_driver_headless()
         self.driver.get(URL)
@@ -14,6 +19,7 @@ class TestTC(object):
 
     def teardown_method(self):
         self.driver.quit()
+        shutil.rmtree(self.profile_dir, ignore_errors=True)
 
     def test_tc1(self):
         WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//button/a[text()="Register"]'))).click()
