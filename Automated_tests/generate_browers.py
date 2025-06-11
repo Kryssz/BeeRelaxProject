@@ -25,6 +25,7 @@ def generate_chrome_driver_headless():
     profile_dir = tempfile.mkdtemp(prefix="chrome-profile-")
     options.add_argument(f"--user-data-dir={profile_dir}")
     # options.add_argument('--headless')  # For CI/CD
+    options.add_argument("--window-size=1920,1080")
     options.add_argument('--no-sandbox')  # For CI/CD
     options.add_argument('--disable-dev-shm-usage')  # For CI/CD
     options.add_argument('--disable-search-engine-choice-screen')
