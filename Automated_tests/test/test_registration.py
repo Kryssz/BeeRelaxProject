@@ -1,20 +1,14 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.select import Select
+from Automated_tests.generate_browers import generate_chrome_driver_headless
 
 URL = 'http://localhost:4200/register'
 
 
 class TestTC(object):
     def setup_method(self):
-        options = Options()
-        options.add_argument('--disable-search-engine-choice-screen')
-        options.add_experimental_option("detach", True)
-        self.driver = webdriver.Chrome(options=options)
-        self.driver.maximize_window()
+        self.driver = generate_chrome_driver_headless()
         self.driver.get(URL)
         self.wait = WebDriverWait(self.driver, 5)
 
