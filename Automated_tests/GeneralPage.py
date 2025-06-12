@@ -1,4 +1,4 @@
-from Automated_tests.generate_browers import generate_chrome_driver_headless
+from Automated_tests.generate_browsers import generate_chrome_driver_headless
 
 class GeneralPage(object):
     def __init__(self, url, driver=None):

@@ -3,14 +3,14 @@ import shutil
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from Automated_tests.generate_browers import generate_chrome_driver_headless
+from Automated_tests.generate_browsers import generate_chrome_driver_headless
 
 URL = 'http://localhost:4200/register'
 
 
 class TestTC(object):
     def __init__(self):
-        self.profile_dir = None
+        self.profile_dir = str()
 
     def setup_method(self):
         self.driver = generate_chrome_driver_headless()
