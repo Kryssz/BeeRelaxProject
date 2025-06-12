@@ -3,9 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
-
+#
 # def generate_chrome_driver():
-#     options = Options()
+#     options = ChromeOptions()
 #     options.add_argument('--disable-search-engine-choice-screen')
 #     options.add_experimental_option("detach", True)
 #     driver = webdriver.Chrome(options=options)
