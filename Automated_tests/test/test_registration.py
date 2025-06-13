@@ -13,13 +13,12 @@ class TestTC(object):
         options = Options()
         options.add_argument('--disable-search-engine-choice-screen')
         options.add_experimental_option("detach", True)
-        self.driver, self.profile_dir  = generate_chrome_driver_headless()
+        self.driver = generate_chrome_driver_headless()
         self.driver.get(URL)
         self.wait = WebDriverWait(self.driver, 5)
 
     def teardown_method(self):
         self.driver.quit()
-        shutil.rmtree(self.profile_dir, ignore_errors=True)
 
     def test_tc1(self):
         WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//button/a[text()="Register"]'))).click()

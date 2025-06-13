@@ -14,17 +14,16 @@ def generate_chrome_driver():
 
 def generate_chrome_driver_headless():
     options = ChromeOptions()
-    profile_dir = tempfile.mkdtemp(prefix="chrome-profile-")
-    options.add_argument(f"--user-data-dir={profile_dir}")
-    # options.add_argument('--headless')  # For CI/CD
+    options.add_argument('--headless=new')
     options.add_argument("--window-size=1920,1080")
-    options.add_argument('--no-sandbox')  # For CI/CD
-    options.add_argument('--disable-dev-shm-usage')  # For CI/CD
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-search-engine-choice-screen')
     options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
-    return driver, profile_dir
+    driver.set_window_size(1920, 1080)
+    return driver
 
 def generate_firefox_driver():
     options = FirefoxOptions()
