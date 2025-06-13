@@ -59,7 +59,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run pytest
       working-directory: |
-        ${{ github.workspace }}
+      ${{ github.workspace }}
       run: | 
          echo "PWD: $(pwd)"
          pytest --maxfail=1 --disable-warnings -q
