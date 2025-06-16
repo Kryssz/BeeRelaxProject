@@ -1,4 +1,6 @@
-import shutil
+import time
+
+from Automated_tests.BeeRelaxed.page_model_registration import LoginPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
@@ -17,9 +19,19 @@ class TestTC(object):
         self.driver.get(URL)
         self.wait = WebDriverWait(self.driver, 5)
 
+
     def teardown_method(self):
-        self.driver.quit()
+        pass #self.driver.quit()
 
     def test_tc1(self):
-        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//button/a[text()="Register"]'))).click()
-        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//select/option[@value="ROLE_BEEFAMILY"]'))).click()
+        page = LoginPage(self.driver)
+        page.input_first_name().send_keys('Test')
+        page.input_last_name().send_keys('Registration')
+        page.input_phone_number().send_keys('+49123456789')
+        page.input_email().send_keys('test@email.com')
+        page.input_password().send_keys('TestPW1!')
+        page.input_zipcode().send_keys('85055')
+        page.input_city().send_keys('Ingolstadt')
+        page.input_address().send_keys('Test Strasse, 7')
+        page.role_user().click()
+        page.button_submit().click()
