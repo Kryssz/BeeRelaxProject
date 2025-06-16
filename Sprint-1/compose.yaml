@@ -9,6 +9,8 @@ services:
       - MYSQL_ROOT_PASSWORD=test1234
     ports:
       - "3306:3306"
+    volumes:
+      - ./dump.sql:/docker-entrypoint-initdb.d/01_init.sql
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
