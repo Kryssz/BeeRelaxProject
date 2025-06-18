@@ -62,7 +62,7 @@ jobs:
         #${{ github.workspace }}
       run: | 
          echo "PWD: $(pwd)"
-         pytest --maxfail=1 --disable-warnings -q
+         pytest -vv
     - name: Tear down Docker Compose cluster
       if: | 
         always()
